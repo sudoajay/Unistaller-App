@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-<!--    Dark Bottom sheet-->
+    <!--    Dark Bottom sheet-->
     <dimen name="bootom_sheet_padding_bottom">32dp</dimen>
 
     <!--    BottomAppBar-->
@@ -9,15 +9,18 @@
     <dimen name="toolbar_title_size">24sp</dimen>
     <dimen name="progress_circular_dimension">48dp</dimen>
 
-<!--    Insert Divider-->
+    <!--    Insert Divider-->
     <dimen name="divider_height">0.8dp</dimen>
     <dimen name="divider_inset">72dp</dimen>
 
-<!--    Layout app item Recycler view-->
+    <!--    Layout app item Recycler view-->
     <dimen name="image_dimension">40dp</dimen>
     <dimen name="secondary_text_margin">7dp</dimen>
 
-<!--    Navigation Drawer-->
+    <!--    Navigation Drawer-->
     <dimen name="text_view_margin_gap">12dp</dimen>
     <dimen name="gap_margin_left_right">16dp</dimen>
+    <dimen name="app_bar_height">180dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="text_margin">16dp</dimen>
 </resources>

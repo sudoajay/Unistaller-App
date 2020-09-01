@@ -15,6 +15,9 @@ interface AppDao {
     @Query("Select * From AppTable Where System_App = :isSystemApp Or User_App = :isUserApp Order By Date Desc ")
     fun getSortByDate(isSystemApp: Int, isUserApp: Int): DataSource.Factory<Int, App>
 
+    @Query("Select * From AppTable Where System_App = :isSystemApp Or User_App = :isUserApp Order By Size Desc ")
+    fun getSortBySize(isSystemApp: Int, isUserApp: Int): DataSource.Factory<Int, App>
+
     @Query("SELECT * FROM AppTable WHERE Name LIKE :search")
     fun searchItem(search: String?): DataSource.Factory<Int, App>
 

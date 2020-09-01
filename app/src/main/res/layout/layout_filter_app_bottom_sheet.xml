@@ -65,7 +65,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="12dp"
             android:layout_marginEnd="8dp"
-            android:onClick="@{() -> bottomSheet.setOrderBy(@string/menu_installation_date)}"
+            android:onClick="@{() -> bottomSheet.setOrderBy(@string/menu_alphabetical_order)}"
             android:background="?selectableItemBackground"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"

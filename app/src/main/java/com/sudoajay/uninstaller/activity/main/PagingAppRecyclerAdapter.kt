@@ -10,11 +10,13 @@ import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.sudoajay.uninstaller.R
 import com.sudoajay.uninstaller.activity.main.database.App
+import com.sudoajay.uninstaller.helper.FileSize
 import kotlinx.android.synthetic.main.layout_app_item.view.*
 
 
@@ -37,7 +39,9 @@ class PagingAppRecyclerAdapter(context: Context) :
         val icon: ImageView = view.app_ImageView
         val title: TextView = view.appTitle_TextView
         val appPackage: TextView = view.appPackage_TextView
+        val size: TextView = view.sizeApp_TextView
         val checkBox: CheckBox = view.app_Checkbox
+        val infoContainer: ConstraintLayout = view.infoContainer_ConstraintLayout
     }
 
 
@@ -48,6 +52,7 @@ class PagingAppRecyclerAdapter(context: Context) :
         holder.appPackage.text = app.packageName
         holder.icon.setImageDrawable(getApplicationsIcon(app.icon))
 
+        holder.size.text = String.format("(%s)", FileSize.convertIt(app.size))
         holder.checkBox.setOnClickListener {
 //            CoroutineScope(Dispatchers.IO).launch {
 //                appFilter.appFilterViewModel.appRepository.updateSelectedApp(
@@ -56,6 +61,8 @@ class PagingAppRecyclerAdapter(context: Context) :
 //                )
 //            }
         }
+        holder.infoContainer.setOnClickListener { }
+        holder.icon.setOnClickListener { }
 
 
         holder.checkBox.isChecked = app.isSelected

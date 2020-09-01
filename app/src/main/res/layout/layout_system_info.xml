@@ -395,7 +395,8 @@
                     android:clickable="true"
                     android:focusable="true"
                     android:onClick="@{() -> dialog.dismiss()}"
-                    app:srcCompat="@drawable/ic_close_window"                    tools:ignore="ContentDescription,RtlHardcoded"
+                    app:srcCompat="@drawable/ic_close_window"
+                    tools:ignore="ContentDescription,RtlHardcoded"
                     app:tint="?attr/colorAccent" />
             </FrameLayout>
         </ScrollView>

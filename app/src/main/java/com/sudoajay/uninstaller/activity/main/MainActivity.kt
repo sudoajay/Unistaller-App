@@ -152,9 +152,21 @@ class MainActivity : BaseActivity() , FilterAppBottomSheet.IsSelectedBottomSheet
         recyclerView.layoutManager = LinearLayoutManager(this)
 
 
+        val pagingAppRecyclerAdapter = PagingAppRecyclerAdapter(applicationContext)
+        recyclerView.adapter = pagingAppRecyclerAdapter
+        viewModel.appList!!.observe(this , {
+            pagingAppRecyclerAdapter.submitList(it)
+
+            if (binding.swipeRefresh.isRefreshing )
+                binding.swipeRefresh.isRefreshing = false
+
+            viewModel.hideProgress!!.value = it.isEmpty()
+
+        })
+
 
         binding.swipeRefresh.setOnRefreshListener {
-
+            viewModel.onRefresh()
         }
 
     }
@@ -248,21 +260,15 @@ class MainActivity : BaseActivity() , FilterAppBottomSheet.IsSelectedBottomSheet
 
             override fun onQueryTextChange(newText: String): Boolean {
                 val query: String = newText.toLowerCase(Locale.ROOT).trim { it <= ' ' }
-//                viewModel.filterChanges(query)
+                viewModel.filterChanges(query)
                 return true
             }
         })
     }
 
-
-
-
     override fun handleDialogClose() {
-
+        viewModel.filterChanges()
     }
-
-
-
 
 
     override fun onBackPressed() {

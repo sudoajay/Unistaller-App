@@ -14,7 +14,7 @@
         <item name="headingNormalTextColor">@color/headingNormalTextColor</item>
         <item name="fadeTextColor">@color/fadeTextColor</item>
         <item name="bgBoxColor">@color/bgBoxColor</item>
-        <item name="primaryAppColor" >@color/primaryAppColor</item>
+        <item name="primaryAppColor">@color/primaryAppColor</item>
         <item name="bottomItemTintColor">@color/bottomItemTintColor</item>
         <item name="boxTextColor">@color/boxTextColor</item>
         <item name="boxHoverColor">@color/boxHoverColor</item>
@@ -27,5 +27,9 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 </resources>

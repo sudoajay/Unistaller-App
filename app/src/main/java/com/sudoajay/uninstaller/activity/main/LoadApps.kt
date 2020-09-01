@@ -5,6 +5,7 @@ import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import com.sudoajay.uninstaller.activity.main.database.App
 import com.sudoajay.uninstaller.activity.main.database.AppRepository
+import java.io.File
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -57,6 +58,9 @@ class LoadApps(private val context: Context, private  val appRepository: AppRepo
         val installedDate = getInstalledDate(packageName)
         val systemApp = isSystemApps(applicationInfo)
 
+        // return size in form of Bytes(Long)
+        val size = File(packageManager.getApplicationInfo(packageName, 0).publicSourceDir).length()
+
 
         appRepository.insert(
             App(
@@ -66,9 +70,10 @@ class LoadApps(private val context: Context, private  val appRepository: AppRepo
                 packageName,
                 icon,
                 installedDate,
+                size,
                 systemApp,
                 !systemApp,
-                isSelected = true,
+                isSelected = false,
                 isInstalled = true
             )
         )
