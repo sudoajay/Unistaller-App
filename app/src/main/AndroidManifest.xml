@@ -9,9 +9,32 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme" >
 
+        <activity
+            android:name=".activity.main.MainActivity"
+            android:label="@string/app_name"
+            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
+            android:launchMode = "singleInstance"
+            android:theme="@style/AppTheme.NoActionBar">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
         <activity
             android:name=".activity.BaseActivity" />
+
+        <activity
+            android:name=".activity.settingActivity.SettingsActivity"
+            android:label="@string/title_activity_settings"
+            android:launchMode="singleInstance"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".activity.sendFeedback.SendFeedback"
+            android:theme="@style/AppTheme.NoActionBar" />
+
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />

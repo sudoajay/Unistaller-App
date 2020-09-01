@@ -7,12 +7,13 @@
     <attr name="bgBoxColor" format="reference"/>
     <attr name="bottomItemTintColor" format="reference"/>
 <!--    <attr name="pdfRedColor" format="reference"/>-->
-<!--    <attr name="feedbackBoxBgColor" format="reference"/>-->
 
-<!--&lt;!&ndash;    Send Feedback &ndash;&gt;-->
-<!--    <attr name="boxTextColor" format="reference"/>-->
-<!--    <attr name="boxHoverColor" format="reference"/>-->
-<!--    <attr name="errorBoxColor" format="reference"/>-->
-<!--    <attr name="dialogBgColorInfo" format="reference"/>-->
+<!--    Send Feedback -->
+    <attr name="boxTextColor" format="reference"/>
+    <attr name="boxHoverColor" format="reference"/>
+    <attr name="errorBoxColor" format="reference"/>
+    <attr name="dialogBgColorInfo" format="reference"/>
+    <attr name="feedbackBoxBgColor" format="reference"/>
+
 
 </resources>

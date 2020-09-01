@@ -77,7 +77,7 @@
 
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/filter_floatingActionButton"
+            android:id="@+id/delete_floatingActionButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:srcCompat="@drawable/ic_delete"

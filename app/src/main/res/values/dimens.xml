@@ -11,6 +11,13 @@
 
 <!--    Insert Divider-->
     <dimen name="divider_height">0.8dp</dimen>
+    <dimen name="divider_inset">72dp</dimen>
 
+<!--    Layout app item Recycler view-->
+    <dimen name="image_dimension">40dp</dimen>
+    <dimen name="secondary_text_margin">7dp</dimen>
 
+<!--    Navigation Drawer-->
+    <dimen name="text_view_margin_gap">12dp</dimen>
+    <dimen name="gap_margin_left_right">16dp</dimen>
 </resources>

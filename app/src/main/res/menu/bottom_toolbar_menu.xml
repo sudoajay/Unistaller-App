@@ -10,13 +10,11 @@
         app:showAsAction="ifRoom|collapseActionView" />
 
     <item
+        android:id="@+id/filterList_optionMenu"
+        android:title="@string/filterList_optionMenu" />
+    <item
         android:id="@+id/darkMode_optionMenu"
-        android:icon="@drawable/ic_dark_mode"
-        android:title="@string/darkMode_optionMenu"
-        app:iconTint="?attr/bottomItemTintColor"
-        app:showAsAction="ifRoom|collapseActionView" />
-
-
+        android:title="@string/darkMode_optionMenu" />
     <item
         android:id="@+id/more_setting_optionMenu"
         android:title="@string/action_more_option" />

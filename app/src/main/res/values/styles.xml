@@ -7,6 +7,8 @@
 
         <item name="android:fontFamily">@font/lato</item>
 
+        <item name="android:textColorSecondary">@color/bottomItemTintColor</item>
+
         <!--        Modified Attr for Dark Mode Effect-->
         <item name="mainBgColor">@color/mainBgColor</item>
         <item name="headingNormalTextColor">@color/headingNormalTextColor</item>
@@ -14,16 +16,11 @@
         <item name="bgBoxColor">@color/bgBoxColor</item>
         <item name="primaryAppColor" >@color/primaryAppColor</item>
         <item name="bottomItemTintColor">@color/bottomItemTintColor</item>
-
-
-        <!--    Not Modify Color Theme -->
-        <color name="swipeSchemeColor">#376db6</color>
-        <color name="swipeSchemeDarkColor">#74A0EE</color>
-        <color name="swipeBgColor">#ffffff</color>
-        <color name="swipeBgDarkColor">#121212</color>
-        <color name="navigationIconColor">#353131</color>
-        <color name="navigationIconDarkColor">#74A0EE</color>
-
+        <item name="boxTextColor">@color/boxTextColor</item>
+        <item name="boxHoverColor">@color/boxHoverColor</item>
+        <item name="errorBoxColor">@color/errorBoxColor</item>
+        <item name="dialogBgColorInfo">@color/dialogBgColorInfo</item>
+        <item name="feedbackBoxBgColor">@color/feedbackBoxBgColor</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
