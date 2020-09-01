@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+<!--    Dark Bottom sheet-->
+    <dimen name="bootom_sheet_padding_bottom">32dp</dimen>
+
+    <!--    BottomAppBar-->
+    <dimen name="toolbar_heigth">60dp</dimen>
+    <dimen name="toolbar_title_size">24sp</dimen>
+    <dimen name="progress_circular_dimension">48dp</dimen>
+
+<!--    Insert Divider-->
+    <dimen name="divider_height">0.8dp</dimen>
+
+
+</resources>

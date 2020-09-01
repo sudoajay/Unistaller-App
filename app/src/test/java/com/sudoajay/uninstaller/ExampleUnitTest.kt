@@ -1,4 +1,4 @@
-package com.sudoajay.uninstallerapp
+package com.sudoajay.uninstaller
 
 import org.junit.Test
 

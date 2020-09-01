@@ -1,10 +1,34 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.DarkActionBar.Bridge">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="android:fontFamily">@font/lato</item>
+
+        <!--        Modified Attr for Dark Mode Effect-->
+        <item name="mainBgColor">@color/mainBgColor</item>
+        <item name="headingNormalTextColor">@color/headingNormalTextColor</item>
+        <item name="fadeTextColor">@color/fadeTextColor</item>
+        <item name="bgBoxColor">@color/bgBoxColor</item>
+        <item name="primaryAppColor" >@color/primaryAppColor</item>
+        <item name="bottomItemTintColor">@color/bottomItemTintColor</item>
+
+
+        <!--    Not Modify Color Theme -->
+        <color name="swipeSchemeColor">#376db6</color>
+        <color name="swipeSchemeDarkColor">#74A0EE</color>
+        <color name="swipeBgColor">#ffffff</color>
+        <color name="swipeBgDarkColor">#121212</color>
+        <color name="navigationIconColor">#353131</color>
+        <color name="navigationIconDarkColor">#74A0EE</color>
+
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
     </style>
 
 </resources>

@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "970376932801",
+    "firebase_url": "https://uninstaller-app-dfb46.firebaseio.com",
+    "project_id": "uninstaller-app-dfb46",
+    "storage_bucket": "uninstaller-app-dfb46.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:970376932801:android:f5c78934bfeb8184d95340",
+        "android_client_info": {
+          "package_name": "com.sudoajay.uninstaller"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "970376932801-44ursjkb6mpikpn7sf9ubvjkf2g5ls2i.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sudoajay.uninstaller",
+            "certificate_hash": "76a725010c7a7213bf6511960e6393c4299e865e"
+          }
+        },
+        {
+          "client_id": "970376932801-e56jrhhpln34kqu83h84iq8vut02e3gv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCL5oV2-WAgdfjU4BVSSIfyt0gNd3U1QRU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "970376932801-e56jrhhpln34kqu83h84iq8vut02e3gv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
