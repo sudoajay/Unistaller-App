@@ -21,6 +21,10 @@ interface AppDao {
     @Query("SELECT * FROM AppTable WHERE Name LIKE :search")
     fun searchItem(search: String?): DataSource.Factory<Int, App>
 
+    @Query("SELECT * FROM AppTable WHERE id= :id")
+    suspend fun getAppFromId(id:Int):App
+
+
     @RawQuery
     suspend fun getIdViaQuery(query: SupportSQLiteQuery): List<Int>
 

@@ -20,7 +20,9 @@
     <!--    Navigation Drawer-->
     <dimen name="text_view_margin_gap">12dp</dimen>
     <dimen name="gap_margin_left_right">16dp</dimen>
-    <dimen name="app_bar_height">180dp</dimen>
+
+<!--    Scrolling Activity-->
+    <dimen name="app_bar_height">220dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="text_margin">16dp</dimen>
 </resources>

@@ -2,6 +2,7 @@ package com.sudoajay.uninstaller.activity.main
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
@@ -16,11 +17,12 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.sudoajay.uninstaller.R
 import com.sudoajay.uninstaller.activity.main.database.App
+import com.sudoajay.uninstaller.activity.scrolling.ScrollingActivity
 import com.sudoajay.uninstaller.helper.FileSize
 import kotlinx.android.synthetic.main.layout_app_item.view.*
 
 
-class PagingAppRecyclerAdapter(context: Context) :
+class PagingAppRecyclerAdapter(var context: Context) :
     PagedListAdapter<App, PagingAppRecyclerAdapter.MyViewHolder>(DIFF_CALLBACK) {
 
 
@@ -28,7 +30,7 @@ class PagingAppRecyclerAdapter(context: Context) :
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val layout =  LayoutInflater.from(parent.context)
+        val layout = LayoutInflater.from(parent.context)
             .inflate(R.layout.layout_app_item, parent, false)
         return MyViewHolder(layout)
 
@@ -50,7 +52,7 @@ class PagingAppRecyclerAdapter(context: Context) :
 
         holder.title.text = app!!.name
         holder.appPackage.text = app.packageName
-        holder.icon.setImageDrawable(getApplicationsIcon(app.icon))
+        holder.icon.setImageDrawable(getApplicationsIcon(app.icon, packageManager))
 
         holder.size.text = String.format("(%s)", FileSize.convertIt(app.size))
         holder.checkBox.setOnClickListener {
@@ -61,11 +63,18 @@ class PagingAppRecyclerAdapter(context: Context) :
 //                )
 //            }
         }
-        holder.infoContainer.setOnClickListener { }
-        holder.icon.setOnClickListener { }
+        holder.infoContainer.setOnClickListener { openAppInfo(app.id!!)}
+        holder.icon.setOnClickListener {app.id!! }
 
 
         holder.checkBox.isChecked = app.isSelected
+    }
+
+    private fun openAppInfo(id: Long) {
+        val intent = Intent(context, ScrollingActivity::class.java)
+        intent.action = id.toString()
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+        context.startActivity(intent)
     }
 
     companion object {
@@ -85,18 +94,21 @@ class PagingAppRecyclerAdapter(context: Context) :
             ): Boolean = oldConcert == newConcert
 
         }
-    }
 
-    private fun getApplicationsIcon(applicationInfo: String): Drawable {
-        return try {
-            packageManager.getApplicationIcon(applicationInfo)
-        } catch (e: PackageManager.NameNotFoundException) {
-            defaultApplicationIcon
+        fun getApplicationsIcon(
+            applicationInfo: String,
+            packageManager: PackageManager
+        ): Drawable {
+            return try {
+                packageManager.getApplicationIcon(applicationInfo)
+            } catch (e: PackageManager.NameNotFoundException) {
+                defaultApplicationIcon(packageManager)
+            }
+        }
+
+        private fun defaultApplicationIcon(packageManager: PackageManager): Drawable {
+            return packageManager.defaultActivityIcon
         }
     }
-
-    private val defaultApplicationIcon: Drawable
-        get() = packageManager.defaultActivityIcon
-
 
 }

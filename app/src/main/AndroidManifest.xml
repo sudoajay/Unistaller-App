@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.sudoajay.uninstaller">
 
+
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,10 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity
-            android:name=".activity.scrolling.ScrollingActivity"
-            android:label="@string/title_activity_scrolling"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+
         <activity
             android:name=".activity.main.MainActivity"
             android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
@@ -28,11 +27,16 @@
         <activity android:name=".activity.BaseActivity" />
         <activity
             android:name=".activity.settingActivity.SettingsActivity"
-            android:label="@string/action_more_option"
+            android:label="@string/action_more_setting"
             android:launchMode="singleInstance"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".activity.sendFeedback.SendFeedback"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
+            android:name=".activity.scrolling.ScrollingActivity"
+            android:label="@string/title_activity_scrolling"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <meta-data

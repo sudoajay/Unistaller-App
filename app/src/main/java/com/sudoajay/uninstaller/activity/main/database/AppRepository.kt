@@ -84,6 +84,9 @@ class AppRepository(private val context: Context, private val appDao: AppDao) {
         appDao.insert(app)
     }
 
+    suspend fun getAppFromId(id:Int):App{
+        return appDao.getAppFromId(id)
+    }
 
     suspend fun isPresent(packageName: String): Int {
         return appDao.isPresent(packageName)

@@ -28,7 +28,7 @@
     <string name="action_search">Search</string>
     <string name="filterList_optionMenu">Filter List</string>
     <string name="darkMode_optionMenu">Dark Mode</string>
-    <string name="action_more_option">More Option</string>
+    <string name="action_more_setting">More Setting</string>
 
 
     <!--    Filter Bottom sheet-->
@@ -85,6 +85,23 @@
 
     <!--    Share App-->
     <string name="shareMessage">Hey, check This App which helps you to Delete Duplicate and Unnecessary Data from the phone -</string>
+
+<!--    Scroll Activity-->
+    <string name="action_applicationSetting">Application Setting</string>
+    <string name="action_openAppInGooglePlayStore">Open app in Google Play Store</string>
+    <string name="version_name_text">Version Name</string>
+    <string name="version_code_text">Version Code</string>
+    <string name="first_install_text">First Install</string>
+    <string name="last_Update_text">Last Update</string>
+    <string name="package_name_text">Package Name</string>
+    <string name="apk_path_text">Apk Path</string>
+    <string name="data_path_text">Data Path</string>
+    <string name="apk_size_text">Apk Size</string>
+    <string name="min_sdk_text">Min Sdk</string>
+    <string name="target_sdk_text">Target Sdk</string>
+    <string name="installer_text">Installer</string>
+    <string name="permission_text">Permission</string>
+    <string name="unspecified_text">Unspecified</string>
 
 
     <!--        No Trans-->
@@ -200,5 +217,5 @@
         "For example, position the FAB to one side of stream of a cards so the FAB won’t interfere "
         "when a user tries to pick up one of cards.\n\n"
     </string>
-    <string name="action_settings">Settings</string>
+
 </resources>

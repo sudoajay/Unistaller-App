@@ -17,5 +17,5 @@
         android:title="@string/darkMode_optionMenu" />
     <item
         android:id="@+id/more_setting_optionMenu"
-        android:title="@string/action_more_option" />
+        android:title="@string/action_more_setting" />
 </menu>
