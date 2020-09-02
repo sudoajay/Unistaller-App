@@ -42,7 +42,6 @@ class PagingAppRecyclerAdapter(var context: Context) :
         val title: TextView = view.appTitle_TextView
         val appPackage: TextView = view.appPackage_TextView
         val size: TextView = view.sizeApp_TextView
-        val checkBox: CheckBox = view.app_Checkbox
         val infoContainer: ConstraintLayout = view.infoContainer_ConstraintLayout
     }
 
@@ -55,19 +54,9 @@ class PagingAppRecyclerAdapter(var context: Context) :
         holder.icon.setImageDrawable(getApplicationsIcon(app.icon, packageManager))
 
         holder.size.text = String.format("(%s)", FileSize.convertIt(app.size))
-        holder.checkBox.setOnClickListener {
-//            CoroutineScope(Dispatchers.IO).launch {
-//                appFilter.appFilterViewModel.appRepository.updateSelectedApp(
-//                    (it as CompoundButton).isChecked,
-//                    app.packageName
-//                )
-//            }
-        }
         holder.infoContainer.setOnClickListener { openAppInfo(app.id!!)}
         holder.icon.setOnClickListener {app.id!! }
 
-
-        holder.checkBox.isChecked = app.isSelected
     }
 
     private fun openAppInfo(id: Long) {

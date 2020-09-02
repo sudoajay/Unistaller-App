@@ -14,7 +14,7 @@ android {
         versionCode 1
         versionName "1.0"
         vectorDrawables.useSupportLibrary = true
-
+        multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -61,6 +61,9 @@ dependencies {
     implementation 'com.google.android.material:material:1.2.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0'
 
+
+    // LibSuperUser
+    implementation 'eu.chainfire:libsuperuser:1.1.0.+'
 
 //    Setting Preferences
     implementation 'androidx.preference:preference:1.1.1'

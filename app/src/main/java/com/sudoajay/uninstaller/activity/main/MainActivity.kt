@@ -1,12 +1,19 @@
 package com.sudoajay.uninstaller.activity.main
 
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import android.view.*
+import android.util.TypedValue
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
+import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
+import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
@@ -16,13 +23,17 @@ import androidx.recyclerview.widget.RecyclerView
 import com.sudoajay.uninstaller.R
 import com.sudoajay.uninstaller.activity.BaseActivity
 import com.sudoajay.uninstaller.activity.main.database.FilterAppBottomSheet
+import com.sudoajay.uninstaller.activity.main.root.RootState
 import com.sudoajay.uninstaller.activity.settingActivity.SettingsActivity
 import com.sudoajay.uninstaller.databinding.ActivityMainBinding
 import com.sudoajay.uninstaller.firebase.NotificationChannels.notificationOnCreate
 import com.sudoajay.uninstaller.helper.CustomToast
 import com.sudoajay.uninstaller.helper.DarkModeBottomSheet
 import com.sudoajay.uninstaller.helper.InsetDivider
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.util.*
 
 class MainActivity : BaseActivity() , FilterAppBottomSheet.IsSelectedBottomSheetFragment {
@@ -51,14 +62,13 @@ class MainActivity : BaseActivity() , FilterAppBottomSheet.IsSelectedBottomSheet
         binding.viewmodel = viewModel
         binding.lifecycleOwner = this
 
-//        if (!intent.action.isNullOrEmpty() && intent.action.toString() == settingId) {
-//            openMoreSetting()
-//        }
-
-
+        if (!intent.action.isNullOrEmpty() && intent.action.toString() == settingId) {
+            openSetting()
+        }
 
 
     }
+
 
     override fun onStart() {
         Log.e(TAG, " Activity - onStart ")
@@ -69,19 +79,14 @@ class MainActivity : BaseActivity() , FilterAppBottomSheet.IsSelectedBottomSheet
 
         setReference()
 
-
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             notificationOnCreate(applicationContext)
         }
 
-
-
-
+        checkRootState()
 
         super.onResume()
     }
-
 
 
     override fun onPause() {
@@ -154,10 +159,10 @@ class MainActivity : BaseActivity() , FilterAppBottomSheet.IsSelectedBottomSheet
 
         val pagingAppRecyclerAdapter = PagingAppRecyclerAdapter(applicationContext)
         recyclerView.adapter = pagingAppRecyclerAdapter
-        viewModel.appList!!.observe(this , {
+        viewModel.appList!!.observe(this, {
             pagingAppRecyclerAdapter.submitList(it)
 
-            if (binding.swipeRefresh.isRefreshing )
+            if (binding.swipeRefresh.isRefreshing)
                 binding.swipeRefresh.isRefreshing = false
 
             viewModel.hideProgress!!.value = it.isEmpty()
@@ -213,9 +218,9 @@ class MainActivity : BaseActivity() , FilterAppBottomSheet.IsSelectedBottomSheet
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> showNavigationDrawer()
-            R.id.filterList_optionMenu->showFilterAppBottomSheet()
+            R.id.filterList_optionMenu -> showFilterAppBottomSheet()
             R.id.darkMode_optionMenu -> showDarkMode()
-            R.id.more_setting_optionMenu ->openSetting()
+            R.id.more_setting_optionMenu -> openSetting()
             else -> return super.onOptionsItemSelected(item)
         }
 
@@ -271,6 +276,63 @@ class MainActivity : BaseActivity() , FilterAppBottomSheet.IsSelectedBottomSheet
     }
 
 
+    private fun checkRootState(): RootState? {
+        val rootState: RootState = viewModel.checkRootPermission()!!
+        Log.e(TAG, rootState.name)
+        when (rootState) {
+            RootState.NO_ROOT -> {
+                setRootAccessAlreadyObtained(false, applicationContext)
+                generateRootStateAlertDialog(
+                    resources.getString(R.string.alert_dialog_title_no_root_permission),
+                    resources.getString(R.string.alert_dialog_message_no_root_permission)
+                )
+            }
+            RootState.BE_ROOT -> {
+                setRootAccessAlreadyObtained(false, applicationContext)
+                generateRootStateAlertDialog(
+                    resources.getString(R.string.alert_dialog_title_be_root),
+                    resources.getString(R.string.alert_dialog_message_be_root)
+                )
+            }
+            RootState.HAVE_ROOT -> {
+
+                if (isRootAccessAlreadyObtained(applicationContext)) return null
+                setRootAccessAlreadyObtained(true, applicationContext)
+                generateRootStateAlertDialog(
+                    resources.getString(R.string.alert_dialog_title_have_root),
+                    resources.getString(R.string.alert_dialog_message_have_root)
+                )
+            }
+        }
+        return rootState
+    }
+
+    private fun generateRootStateAlertDialog(title: String, message: String) {
+        val builder: AlertDialog.Builder =
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                AlertDialog.Builder(
+                    this,
+                    if (!isDarkMode(applicationContext)) android.R.style.Theme_Material_Light_Dialog_Alert else android.R.style.Theme_Material_Dialog_Alert
+                )
+            } else {
+                AlertDialog.Builder(this)
+            }
+        builder.setTitle(title)
+            .setMessage(message)
+            .setNegativeButton("Ok") { _, _ ->
+
+            }
+            .setCancelable(true)
+        val dialog = builder.create()
+        dialog.show()
+        val textView = dialog.findViewById<View>(android.R.id.message) as TextView?
+        textView!!.setTextSize(
+            TypedValue.COMPLEX_UNIT_PX,
+            resources.getDimension(R.dimen.alert_dialog_message_size)
+        )
+    }
+
+
     override fun onBackPressed() {
         onBack()
     }
@@ -312,6 +374,22 @@ class MainActivity : BaseActivity() , FilterAppBottomSheet.IsSelectedBottomSheet
     companion object {
         const val settingId = "setting"
         const val homeId = "home"
+
+        private fun setRootAccessAlreadyObtained(status: Boolean, context: Context) {
+            context.getSharedPreferences("state", Context.MODE_PRIVATE).edit()
+                .putBoolean(
+                    context.getString(R.string.is_root_permission_text), status
+                ).apply()
+        }
+
+        private fun isRootAccessAlreadyObtained(context: Context): Boolean {
+            return context.getSharedPreferences("state", Context.MODE_PRIVATE)
+                .getBoolean(
+                    context.getString(R.string.is_root_permission_text), false
+                )
+        }
+
+
     }
 
 
