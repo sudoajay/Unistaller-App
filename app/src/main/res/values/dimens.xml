@@ -28,4 +28,7 @@
 
 <!--    Alert dialog-->
     <dimen name="alert_dialog_message_size">14sp</dimen>
+
+<!--    Splash Screen-->
+    <dimen name="image_header_dimen">100dp</dimen>
 </resources>
