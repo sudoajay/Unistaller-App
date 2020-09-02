@@ -47,6 +47,8 @@ class LoadApps(private val context: Context, private  val appRepository: AppRepo
 //        Here we remove Uninstall App from Data base
         appRepository.removeUninstallAppFromDB()
 
+        appRepository.setSelectedToDefault()
+
     }
 
     private suspend fun createApp(applicationInfo: ApplicationInfo) {

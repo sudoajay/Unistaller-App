@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.sudoajay.uninstaller.R
 import com.sudoajay.uninstaller.activity.BaseActivity
+import com.sudoajay.uninstaller.activity.main.database.App
 import com.sudoajay.uninstaller.activity.main.database.FilterAppBottomSheet
 import com.sudoajay.uninstaller.activity.main.root.RootState
 import com.sudoajay.uninstaller.activity.settingActivity.SettingsActivity
@@ -30,20 +31,17 @@ import com.sudoajay.uninstaller.firebase.NotificationChannels.notificationOnCrea
 import com.sudoajay.uninstaller.helper.CustomToast
 import com.sudoajay.uninstaller.helper.DarkModeBottomSheet
 import com.sudoajay.uninstaller.helper.InsetDivider
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import java.util.*
 
 class MainActivity : BaseActivity() , FilterAppBottomSheet.IsSelectedBottomSheetFragment {
 
-    private lateinit var viewModel: MainActivityViewModel
+    lateinit var viewModel: MainActivityViewModel
     private lateinit var binding: ActivityMainBinding
     private var isDarkTheme: Boolean = false
     private var TAG = "MainActivityClass"
     private var doubleBackToExitPressedOnce = false
-
+    private var selectedList = mutableListOf<App>()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -84,6 +82,54 @@ class MainActivity : BaseActivity() , FilterAppBottomSheet.IsSelectedBottomSheet
         }
 
         checkRootState()
+
+        binding.deleteFloatingActionButton.setOnClickListener {
+            CoroutineScope(Dispatchers.Main).launch {
+                withContext(Dispatchers.IO) {
+                    selectedList = viewModel.appRepository.getSelectedApp()
+                    for (get in selectedList) {
+                        Log.e(TAG, get.packageName)
+                    }
+                }
+                if (selectedList.isEmpty())
+                    CustomToast.toastIt(
+                        applicationContext,
+                        getString(R.string.alert_dialog_no_app_selected_title)
+                    )
+                else {
+                    generateAlertDialog(
+                        getString(R.string.alert_dialog_ask_permission_to_remove_apps_title),
+                        getString(R.string.alert_dialog_ask_permission_to_remove_apps_message),
+                        getString(R.string.no_text),
+                        getString(R.string.yes_text)
+                    )
+                }
+            }
+        }
+        viewModel.successfullyAppRemoved.observe(this, {
+            if (it) {
+                if (isRootAccessAlreadyObtained(applicationContext)) {
+                    generateAlertDialog(
+                        getString(R.string.alert_dialgo_title_reboot_now),
+                        getString(R.string.alert_dialog_message_reboot_now),
+                        getString(R.string.no_text),
+                        getString(R.string.reboot_now_text)
+                    )
+                }
+            } else {
+                if (isRootAccessAlreadyObtained(applicationContext)) {
+                    generateAlertDialog(
+                        getString(R.string.alert_dialog_title_error_remove_apps),
+                        getString(R.string.alert_dialog_message_error_remove_apps),
+                        getString(R.string.ok_text)
+                    )
+                } else CustomToast.toastIt(
+                    applicationContext,
+                    getString(R.string.alert_dialog_message_error_remove_apps_un_rooted)
+                )
+            }
+            viewModel.onRefresh()
+        })
 
         super.onResume()
     }
@@ -156,9 +202,9 @@ class MainActivity : BaseActivity() , FilterAppBottomSheet.IsSelectedBottomSheet
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-
-        val pagingAppRecyclerAdapter = PagingAppRecyclerAdapter(applicationContext)
+        val pagingAppRecyclerAdapter = PagingAppRecyclerAdapter(applicationContext, this)
         recyclerView.adapter = pagingAppRecyclerAdapter
+
         viewModel.appList!!.observe(this, {
             pagingAppRecyclerAdapter.submitList(it)
 
@@ -173,6 +219,7 @@ class MainActivity : BaseActivity() , FilterAppBottomSheet.IsSelectedBottomSheet
         binding.swipeRefresh.setOnRefreshListener {
             viewModel.onRefresh()
         }
+
 
     }
 
@@ -282,32 +329,40 @@ class MainActivity : BaseActivity() , FilterAppBottomSheet.IsSelectedBottomSheet
         when (rootState) {
             RootState.NO_ROOT -> {
                 setRootAccessAlreadyObtained(false, applicationContext)
-                generateRootStateAlertDialog(
+                generateAlertDialog(
                     resources.getString(R.string.alert_dialog_title_no_root_permission),
-                    resources.getString(R.string.alert_dialog_message_no_root_permission)
+                    resources.getString(R.string.alert_dialog_message_no_root_permission),
+                    getString(R.string.ok_text)
                 )
             }
             RootState.BE_ROOT -> {
                 setRootAccessAlreadyObtained(false, applicationContext)
-                generateRootStateAlertDialog(
+                generateAlertDialog(
                     resources.getString(R.string.alert_dialog_title_be_root),
-                    resources.getString(R.string.alert_dialog_message_be_root)
+                    resources.getString(R.string.alert_dialog_message_be_root),
+                    getString(R.string.ok_text)
                 )
             }
             RootState.HAVE_ROOT -> {
 
                 if (isRootAccessAlreadyObtained(applicationContext)) return null
                 setRootAccessAlreadyObtained(true, applicationContext)
-                generateRootStateAlertDialog(
+                generateAlertDialog(
                     resources.getString(R.string.alert_dialog_title_have_root),
-                    resources.getString(R.string.alert_dialog_message_have_root)
+                    resources.getString(R.string.alert_dialog_message_have_root),
+                    getString(R.string.ok_text)
                 )
             }
         }
         return rootState
     }
 
-    private fun generateRootStateAlertDialog(title: String, message: String) {
+    private fun generateAlertDialog(
+        title: String,
+        message: String,
+        negativeText: String,
+        positiveText: String = ""
+    ) {
         val builder: AlertDialog.Builder =
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 AlertDialog.Builder(
@@ -319,7 +374,20 @@ class MainActivity : BaseActivity() , FilterAppBottomSheet.IsSelectedBottomSheet
             }
         builder.setTitle(title)
             .setMessage(message)
-            .setNegativeButton("Ok") { _, _ ->
+            .setNegativeButton(negativeText) { _, _ ->
+                if (positiveText == getString(R.string.reboot_now_text))
+                    CustomToast.toastIt(
+                        applicationContext,
+                        getString(R.string.successfully_app_removed_text)
+                    )
+
+            }
+            .setPositiveButton(positiveText) { _, _ ->
+                if (positiveText == getString(R.string.yes_text))
+                    viewModel.rootManager.removeApps(selectedList)
+                else if (positiveText == getString(R.string.reboot_now_text))
+                    viewModel.rootManager.rebootDevice()
+
 
             }
             .setCancelable(true)
@@ -330,6 +398,7 @@ class MainActivity : BaseActivity() , FilterAppBottomSheet.IsSelectedBottomSheet
             TypedValue.COMPLEX_UNIT_PX,
             resources.getDimension(R.dimen.alert_dialog_message_size)
         )
+
     }
 
 
@@ -382,7 +451,7 @@ class MainActivity : BaseActivity() , FilterAppBottomSheet.IsSelectedBottomSheet
                 ).apply()
         }
 
-        private fun isRootAccessAlreadyObtained(context: Context): Boolean {
+        fun isRootAccessAlreadyObtained(context: Context): Boolean {
             return context.getSharedPreferences("state", Context.MODE_PRIVATE)
                 .getBoolean(
                     context.getString(R.string.is_root_permission_text), false

@@ -1,19 +1,11 @@
 package com.sudoajay.uninstaller.activity.main.database
 
 import android.content.Context
-import android.content.Intent
-import android.content.pm.ResolveInfo
-import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.paging.DataSource
 import androidx.paging.PagedList
 import androidx.paging.toLiveData
-import androidx.sqlite.db.SimpleSQLiteQuery
 import com.sudoajay.uninstaller.R
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 
 class AppRepository(private val context: Context, private val appDao: AppDao) {
@@ -95,14 +87,24 @@ class AppRepository(private val context: Context, private val appDao: AppDao) {
         appDao.updateInstalledByPackage(packageName)
     }
 
-    suspend fun setDefaultValueInstall(){
+    suspend fun setDefaultValueInstall() {
         appDao.setDefaultValueInstall()
     }
 
-    suspend fun removeUninstallAppFromDB(){
-        for( i in appDao.getUninstallList()){
+    suspend fun removeUninstallAppFromDB() {
+        for (i in appDao.getUninstallList()) {
             appDao.deleteRow(i)
         }
+    }
+
+    suspend fun setSelectedToDefault() {
+        for (pack in getSelectedApp()) {
+            updateSelectedApp(false, pack.packageName)
+        }
+    }
+
+    suspend fun getSelectedApp():MutableList<App>{
+        return appDao.getSelectedApp()
     }
 
     suspend fun updateSelectedApp(selected: Boolean, packageName: String) {

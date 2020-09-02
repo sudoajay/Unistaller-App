@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.sudoajay.uninstaller">
 
+    <uses-permission android:name="android.permission.REQUEST_DELETE_PACKAGES" />
 
 
     <application
@@ -20,7 +21,7 @@
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
+                <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -37,6 +38,7 @@
         <activity
             android:name=".activity.scrolling.ScrollingActivity"
             android:theme="@style/AppTheme.NoActionBar" />
+
 
         <meta-data
             android:name="preloaded_fonts"

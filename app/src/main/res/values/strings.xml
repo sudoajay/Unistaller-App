@@ -72,6 +72,7 @@
     <string name="systemInfo_text">Your System Info will be send to our developer team</string>
     <string name="add_screenshot_text">+ Add Screenshot</string>
     <string name="ok_text">OK</string>
+
     <!--    System Info-->
     <string name="system_info_text"> System Info </string>
     <string name="device_text">Device : </string>
@@ -115,6 +116,26 @@
 
     <string name="alert_dialog_title_have_root">Root Access Obtained!</string>
     <string name="alert_dialog_message_have_root">Root access is properly installed on this device.</string>
+
+    <string name="alert_dialog_ask_permission_to_remove_apps_title">Remove Selected app</string>
+    <string name="alert_dialog_ask_permission_to_remove_apps_message">You are going to remove selected apps. It\'s an irreversible action, pay attention.</string>
+
+    <string name="alert_dialog_no_app_selected_title">There are no apps selected!</string>
+    <string name="successfully_app_removed_text">Successfully app removed</string>
+
+    <string name="alert_dialgo_title_reboot_now">Would you like to reboot now?</string>
+    <string name="alert_dialog_message_reboot_now">Reboot required to remove all apps.</string>
+
+    <string name="alert_dialog_title_error_remove_apps">Something gone wrong!</string>
+    <string name="alert_dialog_message_error_remove_apps">There was a problem, some apps may not have been removed.</string>
+
+    <string name="alert_dialog_message_error_remove_apps_un_rooted">Error you can\'t remove system app without root permission</string>
+
+
+
+    <string name="no_text">NO</string>
+    <string name="yes_text">Yes</string>
+    <string name="reboot_now_text">Reboot Now</string>
 
     <!--        No Trans-->
 

@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
+import android.widget.CompoundButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -20,9 +21,12 @@ import com.sudoajay.uninstaller.activity.main.database.App
 import com.sudoajay.uninstaller.activity.scrolling.ScrollingActivity
 import com.sudoajay.uninstaller.helper.FileSize
 import kotlinx.android.synthetic.main.layout_app_item.view.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
-class PagingAppRecyclerAdapter(var context: Context) :
+class PagingAppRecyclerAdapter(var context: Context, var main:MainActivity) :
     PagedListAdapter<App, PagingAppRecyclerAdapter.MyViewHolder>(DIFF_CALLBACK) {
 
 
@@ -42,6 +46,7 @@ class PagingAppRecyclerAdapter(var context: Context) :
         val title: TextView = view.appTitle_TextView
         val appPackage: TextView = view.appPackage_TextView
         val size: TextView = view.sizeApp_TextView
+        val checkBox: CheckBox = view.app_Checkbox
         val infoContainer: ConstraintLayout = view.infoContainer_ConstraintLayout
     }
 
@@ -54,9 +59,19 @@ class PagingAppRecyclerAdapter(var context: Context) :
         holder.icon.setImageDrawable(getApplicationsIcon(app.icon, packageManager))
 
         holder.size.text = String.format("(%s)", FileSize.convertIt(app.size))
+        holder.checkBox.setOnClickListener {
+            CoroutineScope(Dispatchers.IO).launch {
+                main.viewModel.appRepository.updateSelectedApp(
+                    (it as CompoundButton).isChecked,
+                    app.packageName
+                )
+            }
+        }
         holder.infoContainer.setOnClickListener { openAppInfo(app.id!!)}
         holder.icon.setOnClickListener {app.id!! }
 
+
+        holder.checkBox.isChecked = app.isSelected
     }
 
     private fun openAppInfo(id: Long) {

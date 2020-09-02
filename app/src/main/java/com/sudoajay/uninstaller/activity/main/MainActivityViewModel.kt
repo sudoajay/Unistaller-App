@@ -23,11 +23,11 @@ class MainActivityViewModel(application: Application) : AndroidViewModel(applica
     private var loadApps: LoadApps
     private var _application = application
     var appRepository: AppRepository
-    private val rootManager: RootManager = RootManager()
+    var  rootManager: RootManager = RootManager(this, application)
     private var appDao: AppDao =
         AppRoomDatabase.getDatabase(_application.applicationContext).appDao()
 
-
+    var successfullyAppRemoved:MutableLiveData<Boolean> = MutableLiveData()
     var hideProgress: MutableLiveData<Boolean>? = null
 
     private val filterChanges: MutableLiveData<String> = MutableLiveData()
@@ -36,12 +36,10 @@ class MainActivityViewModel(application: Application) : AndroidViewModel(applica
     var appList: LiveData<PagedList<App>>? = null
 
     init {
-
-//        Creating Object and Initialization
+        //        Creating Object and Initialization
         appRepository = AppRepository(_application.applicationContext, appDao)
         loadApps = LoadApps(_application.applicationContext, appRepository)
 
-//        setDefaultValue()
         getHideProgress()
         appList = Transformations.switchMap(filterChanges) {
             appRepository.handleFilterChanges(it)
@@ -55,17 +53,7 @@ class MainActivityViewModel(application: Application) : AndroidViewModel(applica
 
     fun filterChanges(filter: String = _application.getString(R.string.filter_changes_text)) {
         filterChanges.value = filter
-
     }
-
-//    private fun setDefaultValue() {
-//        // Set Custom Apps to SharedPreferences
-//        _application.getSharedPreferences("state", Context.MODE_PRIVATE).edit()
-//            .putString(
-//                _application.getString(R.string.title_menu_select_option),
-//                _application.getString(R.string.menu_custom_app)
-//            ).apply()
-//    }
 
     private fun databaseConfiguration() {
         getHideProgress()
@@ -84,6 +72,7 @@ class MainActivityViewModel(application: Application) : AndroidViewModel(applica
     }
 
     fun onRefresh() {
+        databaseConfiguration()
             appList!!.value!!.dataSource.invalidate()
     }
 

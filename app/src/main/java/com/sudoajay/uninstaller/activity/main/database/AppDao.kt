@@ -31,6 +31,9 @@ interface AppDao {
     @Query("Select id FROM AppTable Where System_App = '1' and Package_Name Not In (:webBrowserPackageNames)")
     suspend fun getIdFromArray(webBrowserPackageNames: MutableList<String>): List<Int>
 
+    @Query("Select * FROM AppTable Where Selected =1")
+    suspend fun getSelectedApp(): MutableList<App>
+
     @Query("Select Package_Name FROM AppTable Where Selected =:selected")
     suspend fun getPackageFromSelected(selected: Boolean): MutableList<String>
 
@@ -51,7 +54,7 @@ interface AppDao {
     suspend fun setDefaultValueInstall()
 
 
-    @Query("UPDATE AppTable SET Installed = '1'  WHERE id IN (SELECT id FROM ( select id from AppTable where Package_Name = :packageName  limit 0,1)l)")
+    @Query("UPDATE AppTable SET Installed = 1  WHERE id IN (SELECT id FROM ( select id from AppTable where Package_Name = :packageName  limit 0,1)l)")
     suspend fun updateInstalledByPackage(packageName: String)
 
     @Query("UPDATE AppTable SET Selected = :selected  Where Package_Name = :packageName")
