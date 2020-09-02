@@ -137,6 +137,12 @@
     <string name="yes_text">Yes</string>
     <string name="reboot_now_text">Reboot Now</string>
 
+
+    <!--    Shortcuts-->
+    <string name="shortcut_home_text">Home</string>
+    <string name="shortcut_setting_text">Setting</string>
+
+
     <!--        No Trans-->
 
     <!--    Dark Mode No Trans-->

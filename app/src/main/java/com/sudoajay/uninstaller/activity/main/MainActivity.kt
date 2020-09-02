@@ -60,7 +60,7 @@ class MainActivity : BaseActivity() , FilterAppBottomSheet.IsSelectedBottomSheet
         binding.viewmodel = viewModel
         binding.lifecycleOwner = this
 
-        if (!intent.action.isNullOrEmpty() && intent.action.toString() == settingId) {
+        if (!intent.action.isNullOrEmpty() && intent.action.toString() == settingShortcutId) {
             openSetting()
         }
 
@@ -241,7 +241,7 @@ class MainActivity : BaseActivity() , FilterAppBottomSheet.IsSelectedBottomSheet
 
 
     private fun showDarkMode() {
-        val darkModeBottomSheet = DarkModeBottomSheet(homeId)
+        val darkModeBottomSheet = DarkModeBottomSheet(homeShortcutId)
         darkModeBottomSheet.show(
             supportFragmentManager.beginTransaction(),
             darkModeBottomSheet.tag
@@ -441,8 +441,8 @@ class MainActivity : BaseActivity() , FilterAppBottomSheet.IsSelectedBottomSheet
     }
 
     companion object {
-        const val settingId = "setting"
-        const val homeId = "home"
+        const val settingShortcutId = "setting"
+        const val homeShortcutId = "home"
 
         private fun setRootAccessAlreadyObtained(status: Boolean, context: Context) {
             context.getSharedPreferences("state", Context.MODE_PRIVATE).edit()

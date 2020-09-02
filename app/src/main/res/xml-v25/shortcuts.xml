@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+        android:shortcutId="settingShortcutId"
+        android:enabled="true"
+        android:icon="@drawable/ic_setting"
+        android:shortcutShortLabel="@string/shortcut_setting_text"
+        android:shortcutLongLabel="@string/shortcut_setting_text"
+        android:shortcutDisabledMessage="@string/shortcut_setting_text">
+        <intent
+            android:action="settingShortcut"
+            android:targetPackage="com.sudoajay.uninstaller"
+            android:targetClass="com.sudoajay.uninstaller.activity.main.MainActivity" />
+    </shortcut>
+
+    <shortcut
+        android:shortcutId="homeShortcutId"
+        android:enabled="true"
+        android:icon="@drawable/ic_home"
+        android:shortcutShortLabel="@string/shortcut_home_text"
+        android:shortcutLongLabel="@string/shortcut_home_text"
+        android:shortcutDisabledMessage="@string/shortcut_home_text">
+        <intent
+            android:action="homeShortcutId"
+            android:targetPackage="com.sudoajay.uninstaller"
+            android:targetClass="com.sudoajay.uninstaller.activity.main.MainActivity" />
+    </shortcut>
+</shortcuts>
