@@ -40,10 +40,6 @@ class ScrollingActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
 
         isDarkTheme = isDarkMode(applicationContext)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (!isDarkTheme)
-                window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-        }
         binding = DataBindingUtil.setContentView(this, R.layout.activity_scrolling)
         binding.activity = this
         changeStatusBarColor()
