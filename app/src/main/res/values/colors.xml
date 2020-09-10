@@ -35,10 +35,6 @@
     <color name="dark_gray">#3f3f3f</color>
 
 
-
-    <!--Toast Color Background and text Color-->
-    <color name="toastBackgroundColor">@android:color/black</color>
-    <color name="toastTextColor">#D6D1D1</color>
     <!--    Divider color-->
 
     <color name="divider">#E6E6E6</color>

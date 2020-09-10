@@ -5,7 +5,6 @@
     <!--    Notification channel-->
     <string name="notifications_group_service">Service control</string>
     <string name="firebase_channel_id" translatable="false">Push Notification</string>
-    <string name="msg_token_fmt" translatable="false">InstanceID Token: %s</string>
 
     <!--    Network Provider-->
     <string name="wifi_text">Wifi</string>
@@ -60,7 +59,6 @@
     <string name="rate_use_text">Rate-Us</string>
     <string name="more_app_text">More App</string>
     <string name="about_app_text">About App</string>
-    <string name="attachment_summary_off">Only download attachments when manually requested</string>
     <string name="share_app_summary_text">share the play store app link</string>
     <string name="rate_use_summary_text">express your experience through rating</string>
     <string name="more_app_summary_text">there is more app out there</string>

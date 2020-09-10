@@ -5,7 +5,6 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.util.TypedValue
 import android.view.Menu
 import android.view.MenuItem
@@ -23,7 +22,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.sudoajay.uninstaller.R
 import com.sudoajay.uninstaller.activity.BaseActivity
 import com.sudoajay.uninstaller.activity.main.database.App
-import com.sudoajay.uninstaller.activity.main.database.FilterAppBottomSheet
 import com.sudoajay.uninstaller.activity.main.root.RootState
 import com.sudoajay.uninstaller.activity.settingActivity.SettingsActivity
 import com.sudoajay.uninstaller.databinding.ActivityMainBinding
@@ -39,7 +37,6 @@ class MainActivity : BaseActivity() , FilterAppBottomSheet.IsSelectedBottomSheet
     lateinit var viewModel: MainActivityViewModel
     private lateinit var binding: ActivityMainBinding
     private var isDarkTheme: Boolean = false
-    private var TAG = "MainActivityClass"
     private var doubleBackToExitPressedOnce = false
     private var selectedList = mutableListOf<App>()
 
@@ -50,7 +47,9 @@ class MainActivity : BaseActivity() , FilterAppBottomSheet.IsSelectedBottomSheet
         isDarkTheme = isDarkMode(applicationContext)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (!isDarkTheme)
-                window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) window.setDecorFitsSystemWindows(
+                    false
+                ) else window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
         }
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
@@ -68,11 +67,6 @@ class MainActivity : BaseActivity() , FilterAppBottomSheet.IsSelectedBottomSheet
     }
 
 
-    override fun onStart() {
-        Log.e(TAG, " Activity - onStart ")
-        super.onStart()
-    }
-
     override fun onResume() {
 
         setReference()
@@ -87,9 +81,6 @@ class MainActivity : BaseActivity() , FilterAppBottomSheet.IsSelectedBottomSheet
             CoroutineScope(Dispatchers.Main).launch {
                 withContext(Dispatchers.IO) {
                     selectedList = viewModel.appRepository.getSelectedApp()
-                    for (get in selectedList) {
-                        Log.e(TAG, get.packageName)
-                    }
                 }
                 if (selectedList.isEmpty())
                     CustomToast.toastIt(
@@ -135,30 +126,6 @@ class MainActivity : BaseActivity() , FilterAppBottomSheet.IsSelectedBottomSheet
     }
 
 
-    override fun onPause() {
-        Log.e(TAG, " Activity - onPause ")
-
-        super.onPause()
-    }
-
-
-    override fun onStop() {
-        Log.e(TAG, " Activity - onStop ")
-
-        super.onStop()
-    }
-    override fun onRestart() {
-        Log.e(TAG, " Activity - onRestart ")
-
-        super.onRestart()
-    }
-
-
-    override fun onDestroy() {
-        Log.e(TAG, " Activity - onDestroy ")
-
-        super.onDestroy()
-    }
     private fun setReference() {
 
         //      Setup Swipe RecyclerView
@@ -325,7 +292,6 @@ class MainActivity : BaseActivity() , FilterAppBottomSheet.IsSelectedBottomSheet
 
     private fun checkRootState(): RootState? {
         val rootState: RootState = viewModel.checkRootPermission()!!
-        Log.e(TAG, rootState.name)
         when (rootState) {
             RootState.NO_ROOT -> {
                 setRootAccessAlreadyObtained(false, applicationContext)

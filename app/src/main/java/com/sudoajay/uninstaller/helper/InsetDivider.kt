@@ -156,10 +156,6 @@ open class InsetDivider private constructor() : ItemDecoration() {
             return this
         }
 
-        fun overlay(overlay: Boolean): Builder {
-            mOverlay = overlay
-            return this
-        }
 
         fun build(): InsetDivider {
             val insetDivider = InsetDivider()

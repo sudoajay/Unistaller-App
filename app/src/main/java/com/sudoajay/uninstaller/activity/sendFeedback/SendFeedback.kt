@@ -1,5 +1,6 @@
 package com.sudoajay.uninstaller.activity.sendFeedback
 
+import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
@@ -22,7 +23,8 @@ import com.sudoajay.uninstaller.helper.CustomToast
 
 class SendFeedback : BaseActivity() {
     private val requestCode = 100
-    private var imageUri: Uri? = null
+    private var arrayImageUri: ArrayList<Uri> = arrayListOf()
+
     private lateinit var binding: ActivitySendFeebackBinding
 
     private  var isDarkTheme: Boolean =false
@@ -34,7 +36,9 @@ class SendFeedback : BaseActivity() {
         isDarkTheme = isDarkMode(applicationContext)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (!isDarkTheme )
-                window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) window.setDecorFitsSystemWindows(
+                    false
+                ) else window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
         }
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_send_feeback)
@@ -98,7 +102,7 @@ class SendFeedback : BaseActivity() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             intent.action = Intent.ACTION_OPEN_DOCUMENT
             intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
-        }
+        }else intent.action = Intent.ACTION_GET_CONTENT
         intent.addCategory(Intent.CATEGORY_OPENABLE)
 
         return intent
@@ -106,8 +110,17 @@ class SendFeedback : BaseActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (this.requestCode == requestCode && data != null) {
-            imageUri = data.data!!
+        if (this.requestCode == requestCode && data != null && resultCode == Activity.RESULT_OK) {
+            arrayImageUri.clear()
+            if (null != data.clipData) {
+                for (i in 0 until data.clipData!!.itemCount) {
+                    val uri = data.clipData!!.getItemAt(i).uri
+                    arrayImageUri.add(uri!!)
+                }
+            } else {
+                val uri = data.data
+                arrayImageUri.add(uri!!)
+            }
             binding.addScreenshotTextView.visibility = View.GONE
             binding.addScreenshotSmallImageView.visibility = View.GONE
             binding.addScreenshotLargeImageView.visibility = View.VISIBLE
@@ -122,9 +135,11 @@ class SendFeedback : BaseActivity() {
 
             val emailIntent = Intent(Intent.ACTION_SEND)
 
-            if (imageUri != null) {
-                emailIntent.putExtra(Intent.EXTRA_STREAM, imageUri)
-            }
+            if (arrayImageUri.isNotEmpty()) {
+                emailIntent.action = Intent.ACTION_SEND_MULTIPLE
+                emailIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, arrayImageUri)
+            } else emailIntent.action = Intent.ACTION_SEND
+
             emailIntent.type = "image/*"
             val to = arrayOf("devsudoajay@gmail.com")
             emailIntent.putExtra(Intent.EXTRA_EMAIL, to)

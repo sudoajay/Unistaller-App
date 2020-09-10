@@ -15,7 +15,6 @@
 
     <!--    Layout app item Recycler view-->
     <dimen name="image_dimension">40dp</dimen>
-    <dimen name="secondary_text_margin">7dp</dimen>
 
     <!--    Navigation Drawer-->
     <dimen name="text_view_margin_gap">12dp</dimen>
@@ -24,7 +23,6 @@
 <!--    Scrolling Activity-->
     <dimen name="app_bar_height">220dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
-    <dimen name="text_margin">16dp</dimen>
 
 <!--    Alert dialog-->
     <dimen name="alert_dialog_message_size">14sp</dimen>

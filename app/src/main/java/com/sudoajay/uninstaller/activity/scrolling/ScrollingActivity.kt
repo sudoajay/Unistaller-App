@@ -10,9 +10,8 @@ import android.os.Bundle
 import android.provider.Settings
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.view.WindowManager
-import androidx.core.content.ContextCompat
+import androidx.core.content.pm.PackageInfoCompat
 import androidx.databinding.DataBindingUtil
 import com.sudoajay.uninstaller.R
 import com.sudoajay.uninstaller.activity.BaseActivity
@@ -87,7 +86,7 @@ class ScrollingActivity : BaseActivity() {
         val sdf = SimpleDateFormat(" h:mm a , d MMM yyyy ", Locale.getDefault())
 
         versionNameInfo_TextView.text = info.versionName
-        versionCodeInfo_TextView.text = info.versionCode.toString()
+        versionCodeInfo_TextView.text = PackageInfoCompat.getLongVersionCode(info).toString()
         firstInstallInfo_TextView.text = sdf.format(info.firstInstallTime)
         lastUpdateInfo_TextView.text = sdf.format(info.lastUpdateTime)
         packageNameInfo_TextView.text = info.packageName

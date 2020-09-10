@@ -22,7 +22,7 @@ class SystemInfo(private var activity: Activity) {
 
     fun getInfo(str: String): String {
         when (str) {
-            "MANUFACTURER" -> return Build.MANUFACTURER.capitalize()
+            "MANUFACTURER" -> return Build.MANUFACTURER.capitalize(Locale.ROOT)
             "MODEL" -> return Build.MODEL
             "PRODUCT" -> return Build.PRODUCT
             "SDK_INT" -> return Build.VERSION.SDK_INT.toString()
@@ -43,9 +43,7 @@ class SystemInfo(private var activity: Activity) {
     }
 
     fun getScreenSize(): DisplayMetrics {
-        val dm = DisplayMetrics()
-        activity.windowManager.defaultDisplay.getMetrics(dm)
-        return dm
+        return activity.resources.displayMetrics
     }
 
     fun createTextForEmail(): StringBuilder {

@@ -1,4 +1,4 @@
-package com.sudoajay.uninstaller.activity.main.database
+package com.sudoajay.uninstaller.activity.main
 
 import android.content.Context
 import android.os.Bundle

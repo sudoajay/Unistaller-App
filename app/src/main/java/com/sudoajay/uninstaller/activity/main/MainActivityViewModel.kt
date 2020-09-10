@@ -67,17 +67,13 @@ class MainActivityViewModel(application: Application) : AndroidViewModel(applica
 
     }
 
-    suspend fun isEmpty(): Boolean {
-        return appRepository.getCount() == 0
-    }
-
     fun onRefresh() {
         databaseConfiguration()
             appList!!.value!!.dataSource.invalidate()
     }
 
 
-    fun getHideProgress(): LiveData<Boolean> {
+    private fun getHideProgress(): LiveData<Boolean> {
         if (hideProgress == null) {
             hideProgress = MutableLiveData()
             loadHideProgress()
@@ -90,7 +86,7 @@ class MainActivityViewModel(application: Application) : AndroidViewModel(applica
     }
 
     fun checkRootPermission(): RootState? {
-        val hasRootedPermission: Boolean = rootManager.hasRootedPermision()
+        val hasRootedPermission: Boolean = rootManager.hasRootedPermission()
         if (hasRootedPermission) return RootState.HAVE_ROOT
         val wasRooted: Boolean = rootManager.wasRooted()
         return if (wasRooted) RootState.BE_ROOT else RootState.NO_ROOT

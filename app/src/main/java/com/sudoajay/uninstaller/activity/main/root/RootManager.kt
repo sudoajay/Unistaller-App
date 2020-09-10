@@ -15,7 +15,7 @@ import java.io.File
 import java.util.*
 
 
-class RootManager(var viewModel: MainActivityViewModel, var context: Context) {
+class RootManager(private var viewModel: MainActivityViewModel, var context: Context) {
     private val SU_BINARY_DIRS = arrayOf(
         "/system/bin",
         "/system/sbin",
@@ -24,12 +24,8 @@ class RootManager(var viewModel: MainActivityViewModel, var context: Context) {
         "/sbin"
     )
 
-    //    private AppExecutors appExecutors;
-    //    SingleLiveEvent<Boolean> uninstallResult = new SingleLiveEvent<>();
-    //    public RootManager(AppExecutors appExecutors) {
-    //        this.appExecutors = appExecutors;
-    //    }
-    fun hasRootedPermision(): Boolean {
+
+    fun hasRootedPermission(): Boolean {
         return Shell.SU.available()
     }
 
@@ -52,7 +48,7 @@ class RootManager(var viewModel: MainActivityViewModel, var context: Context) {
             var successfully = true
             for (app in appsToRemove) {
                 if (isRootAccessAlreadyObtained(context)) {
-                    var result = true
+                    var result: Boolean
                     if (app.isSystemApp) {
                         result = uninstallSystemApp(app.path)
                         if (!result) result = uninstallSystemAppAlternativeMethod(app.packageName)
@@ -133,7 +129,7 @@ class RootManager(var viewModel: MainActivityViewModel, var context: Context) {
     }
 
     private fun checkPMCommandSuccesfull(commandOutput: String?): Boolean {
-        return commandOutput != null && commandOutput.toLowerCase().contains("success")
+        return commandOutput != null && commandOutput.toLowerCase(Locale.ROOT).contains("success")
     }
 
 

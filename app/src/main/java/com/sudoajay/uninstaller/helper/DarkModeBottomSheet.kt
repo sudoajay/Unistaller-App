@@ -12,7 +12,7 @@ import com.sudoajay.uninstaller.activity.main.MainActivity
 import com.sudoajay.uninstaller.databinding.LayoutDarkModeBottomSheetBinding
 
 
-class DarkModeBottomSheet(var passAction: String) : BottomSheetDialogFragment() {
+class DarkModeBottomSheet(private var passAction: String) : BottomSheetDialogFragment() {
 
 
     override fun onCreateView(

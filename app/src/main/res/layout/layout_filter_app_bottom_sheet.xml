@@ -9,7 +9,7 @@
 
         <variable
             name="bottomSheet"
-            type="com.sudoajay.uninstaller.activity.main.database.FilterAppBottomSheet" />
+            type="com.sudoajay.uninstaller.activity.main.FilterAppBottomSheet" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

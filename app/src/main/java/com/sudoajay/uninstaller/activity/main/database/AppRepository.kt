@@ -14,8 +14,6 @@ class AppRepository(private val context: Context, private val appDao: AppDao) {
     // Observed LiveData will notify the observer when the data has changed.
     lateinit var app: DataSource.Factory<Int, App>
     lateinit var id: List<Int>
-    private val webBrowserPackageNames: MutableList<String> =
-        ArrayList()
 
     fun handleFilterChanges(filter: String): LiveData<PagedList<App>> {
         if (filter == context.getString(R.string.filter_changes_text)) {
@@ -111,15 +109,5 @@ class AppRepository(private val context: Context, private val appDao: AppDao) {
         appDao.updateSelectedApp(selected, packageName)
     }
 
-    suspend fun getPackageFromSelected(selected: Boolean): MutableList<String> {
-        return appDao.getPackageFromSelected(selected)
-    }
 
-    suspend fun listRefresh(packageName: String) {
-        appDao.listRefresh(packageName)
-    }
-
-    suspend fun getCount(): Int {
-        return appDao.getCount()
-    }
 }

@@ -1,9 +1,10 @@
 package com.sudoajay.uninstaller.activity.main.database
 
 import androidx.paging.DataSource
-import androidx.room.*
-import androidx.sqlite.db.SupportSQLiteQuery
-import com.sudoajay.uninstaller.activity.main.database.App
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
 
 
 @Dao
@@ -23,13 +24,6 @@ interface AppDao {
 
     @Query("SELECT * FROM AppTable WHERE id= :id")
     suspend fun getAppFromId(id:Int):App
-
-
-    @RawQuery
-    suspend fun getIdViaQuery(query: SupportSQLiteQuery): List<Int>
-
-    @Query("Select id FROM AppTable Where System_App = '1' and Package_Name Not In (:webBrowserPackageNames)")
-    suspend fun getIdFromArray(webBrowserPackageNames: MutableList<String>): List<Int>
 
     @Query("Select * FROM AppTable Where Selected =1")
     suspend fun getSelectedApp(): MutableList<App>
